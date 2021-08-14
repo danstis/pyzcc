@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "pyzcc"
+version = "0.1.0"
+description = "Python library for the ZCC API"
+authors = ["Dan Anstis <dan@bsod.co.nz>"]
+license = "MIT License"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
