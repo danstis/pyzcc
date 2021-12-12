@@ -1,7 +1,9 @@
 import asyncio
+import pytest
 from pyzcc import Discover
 from pyzcc.discover import _DiscoverProtocol, _ListenerProtocol
 from pyzcc.zcc import ZccDevice
+from pyzcc.exceptions import ZccException
 
 
 # def test_discovery():
@@ -32,3 +34,11 @@ def test_discover_datagram_received(mocker):
     dev = proto.discovered_devices[addr]
     assert issubclass(dev.__class__, ZccDevice)
     assert dev.host == addr
+
+
+def test_invalid_response():
+    """Test an invalid response from the discovery."""
+    proto = _ListenerProtocol()
+    proto.datagram_received(
+        b'{"Error": "Some invalid response!"}', ("127.0.0.1", 1234))
+    pytest.raises(ZccException)

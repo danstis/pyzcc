@@ -7,6 +7,7 @@ import json
 from typing import Awaitable, Callable, Dict, Optional, cast
 
 from pyzcc.zcc import ZccDevice
+from pyzcc.exceptions import ZccException
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -89,8 +90,16 @@ class _ListenerProtocol(asyncio.DatagramProtocol):
         _LOGGER.debug("[DISCOVERY] %s << %s", ip, data)
 
         devinfo = json.loads(data)
-        device = ZccDevice(ip, devinfo["brand"], devinfo["product"],
-                           devinfo["mac"], devinfo["tcp"], devinfo["availableTcps"])
+        try:
+            if Discover._response_is_valid(devinfo):
+                device = ZccDevice(ip, devinfo["brand"], devinfo["product"],
+                                   devinfo["mac"], devinfo["tcp"], devinfo["availableTcps"])
+            else:
+                raise ZccException("Invalid response from device")
+        except ZccException as ex:
+            _LOGGER.error(
+                "Unable to find device type from %s: %s", devinfo, ex)
+            return
 
         self.discovered_devices[ip] = device
 
@@ -174,3 +183,11 @@ class Discover:
                       len(protocol.discovered_devices))
 
         return protocol.discovered_devices
+
+    @staticmethod
+    def _response_is_valid(response: bytes) -> bool:
+        """Check if the response is valid."""
+        if response.keys() == ["mac", "product", "brand", "tcp", "availableTcps"]:
+            return True
+        else:
+            return False
