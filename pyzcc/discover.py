@@ -1,7 +1,6 @@
 """Discovery module for ZCC devices."""
 
 import asyncio
-from asyncio.windows_events import NULL
 import logging
 import socket
 import json
