@@ -4,6 +4,7 @@ import logging
 
 _LOGGER = logging.getLogger(__name__)
 
+
 class ZccDevice:
     """Describes a ZCC device
 
@@ -11,17 +12,16 @@ class ZccDevice:
 
     """
 
-    def __init__(self, host: str, brand: str, product: str, mac: str, port: int, availableTcps: int) -> None:
+    def __init__(self, host: str, brand: str, product: str, mac: str, port: int, available_tcps: int) -> None:
         """Create a new device."""
         self.host = host
         self.brand = brand or 'zimi'
         self.product = product or 'zcc'
         self.mac = mac
         self.port = port
-        self.availableTcps = availableTcps
+        self.available_tcps = available_tcps
 
         _LOGGER.debug('ZccDevice: %s', self)
-
 
     def __str__(self) -> str:
         return f"{self.brand} {self.product} at {self.host}:{self.port}. Device MAC:{self.mac}"
