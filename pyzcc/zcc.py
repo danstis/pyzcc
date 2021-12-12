@@ -27,4 +27,4 @@ class ZccDevice:
         return f"{self.brand} {self.product} at {self.host}:{self.port}. Device MAC:{self.mac}"
 
     def __repr__(self):
-        return f"{self.brand} {self.product} - {self.host}:{self.port} (MAC:{self.mac})"
+        return f'ZccDevice(host:"{self.host}", brand:"{self.brand}", product:"{self.product}", mac:"{self.mac}", port:"{self.port}", available_tcps:"{self.available_tcps}")'
