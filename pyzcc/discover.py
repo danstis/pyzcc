@@ -50,7 +50,7 @@ class _DiscoverProtocol(asyncio.DatagramProtocol):
         """Send number of discovery datagrams."""
         _LOGGER.debug("[DISCOVERY] %s >> %s", self.target,
                       Discover.DISCOVERY_MESSAGE)
-        for i in range(self.discovery_packets):
+        for _ in range(self.discovery_packets):
             self.transport.sendto(Discover.DISCOVERY_MESSAGE, self.target)
 
     def error_received(self, ex):
