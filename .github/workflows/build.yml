@@ -28,10 +28,9 @@ jobs:
       - name: Install dependencies
         run: |
           poetry install
-          pip install pytest pytest-cov
       - name: Running pytest
         run: |
-          pytest -v
+          poetry run pytest -v
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
